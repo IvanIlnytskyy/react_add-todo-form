@@ -10,7 +10,7 @@ export const App: React.FC = () => {
   const [todos, setTodos] = useState<Todo[]>(
     todosFromServer.map(todo => ({
       ...todo,
-      user: usersFromServer.find(u => u.id === todo.userId),
+      user: usersFromServer.find(u => u.id === todo.userId)!,
     })),
   );
   const [title, setTitle] = useState('');
@@ -39,7 +39,7 @@ export const App: React.FC = () => {
     const newId = todos.length
       ? Math.max(...todos.map(todo => todo.id)) + 1
       : 1;
-    const user = usersFromServer.find(u => u.id === +userId);
+    const user = usersFromServer.find(u => u.id === +userId)!;
 
     const newTodo = {
       id: newId,
@@ -55,15 +55,15 @@ export const App: React.FC = () => {
     setErrors({});
   };
 
-  const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(e.target.value.replace(/[^a-zA-Zа-яА-ЯіІїЇєЄ0-9 ]/g, ''));
+  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(event.target.value.replace(/[^a-zA-Zа-яА-ЯіІїЇєЄ0-9 ]/g, ''));
     if (errors.title) {
       setErrors(prev => ({ ...prev, title: undefined }));
     }
   };
 
-  const handleUserChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setUserId(e.target.value);
+  const handleUserChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setUserId(event.target.value);
     if (errors.userId) {
       setErrors(prev => ({ ...prev, userId: undefined }));
     }
@@ -78,6 +78,7 @@ export const App: React.FC = () => {
           <input
             type="text"
             data-cy="titleInput"
+            placeholder="Enter a title"
             value={title}
             onChange={handleTitleChange}
           />
