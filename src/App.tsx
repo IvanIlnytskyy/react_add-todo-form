@@ -3,21 +3,8 @@ import React, { useState } from 'react';
 
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
-
-type User = {
-  id: number;
-  name: string;
-  username: string;
-  email: string;
-};
-
-type Todo = {
-  id: number;
-  title: string;
-  completed: boolean;
-  userId: number;
-  user?: User;
-};
+import { Todo } from './types';
+import { TodoList } from './components/TodoList';
 
 export const App: React.FC = () => {
   const [todos, setTodos] = useState<Todo[]>(
@@ -103,9 +90,7 @@ export const App: React.FC = () => {
             value={userId}
             onChange={handleUserChange}
           >
-            <option value="0" disabled>
-              Choose a user
-            </option>
+            <option value="">Choose a user</option>
             {usersFromServer.map(user => (
               <option value={user.id} key={user.id}>
                 {user.name}
@@ -121,21 +106,7 @@ export const App: React.FC = () => {
         </button>
       </form>
 
-      <section className="TodoList">
-        {todos.map(todo => (
-          <article
-            key={todo.id}
-            data-id={todo.id}
-            className={`TodoInfo ${todo.completed ? 'TodoInfo--completed' : ''}`}
-          >
-            <h2 className="TodoInfo__title">{todo.title}</h2>
-
-            <a className="UserInfo" href={`mailto:${todo.user?.email}`}>
-              {todo.user?.name}
-            </a>
-          </article>
-        ))}
-      </section>
+      <TodoList todos={todos} />
     </div>
   );
 };
