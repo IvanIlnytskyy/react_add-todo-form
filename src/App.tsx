@@ -75,6 +75,7 @@ export const App: React.FC = () => {
 
       <form onSubmit={handleSubmit}>
         <div className="field">
+          <label htmlFor="titleInput">Title: </label>
           <input
             type="text"
             data-cy="titleInput"
@@ -86,15 +87,16 @@ export const App: React.FC = () => {
         </div>
 
         <div className="field">
+          <label htmlFor="userSelect">User: </label>
           <select
             data-cy="userSelect"
             value={userId}
             onChange={handleUserChange}
           >
             <option value="">Choose a user</option>
-            {usersFromServer.map(user => (
-              <option value={user.id} key={user.id}>
-                {user.name}
+            {usersFromServer.map(({ id, name }) => (
+              <option value={id} key={id}>
+                {name}
               </option>
             ))}
           </select>

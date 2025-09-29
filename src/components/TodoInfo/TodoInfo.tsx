@@ -5,19 +5,23 @@ type Props = {
   todo: Todo;
 };
 
-export const TodoInfo: React.FC<Props> = ({ todo }) => (
-  <article
-    data-id={todo.id}
-    className={`TodoInfo ${todo.completed ? 'TodoInfo--completed' : ''}`}
-  >
-    <h2 className="TodoInfo__title">{todo.title}</h2>
+export const TodoInfo: React.FC<Props> = ({ todo }) => {
+  const { id, title, completed, user } = todo;
+  const { email, name } = user || {};
 
-    {todo.user?.email ? (
-      <a className="UserInfo" href={`mailto:${todo.user?.email}`}>
-        {todo.user?.name}
-      </a>
-    ) : (
-      <span className="UserInfo">{todo.user?.name ?? 'Unknown user'}</span>
-    )}
-  </article>
-);
+  return (
+    <article
+      data-id={id}
+      className={`TodoInfo ${completed ? 'TodoInfo--completed' : ''}`}
+    >
+      <h2 className="TodoInfo__title">{title}</h2>
+      {email ? (
+        <a className="UserInfo" href={`mailto:${email}`}>
+          {name}
+        </a>
+      ) : (
+        <span className="UserInfo">{name ?? 'Unknown user'}</span>
+      )}
+    </article>
+  );
+};
